@@ -1,0 +1,32 @@
+services:
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/home/node/frontend
+    depends_on:
+      - backend
+    ports:
+      - '3000:3000'
+    links:
+      - backend
+
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/home/python/backend
+    ports:
+      - '5000:5000'
+    depends_on:
+      - db
+    links:
+      - db
+
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+
+    
